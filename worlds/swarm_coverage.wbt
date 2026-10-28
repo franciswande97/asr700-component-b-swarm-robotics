@@ -1,49 +1,167 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/epuck/protos/E-puck.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
 
 WorldInfo {
-  title "Multi-Agent Swarm Coverage"
-  timestep 32
 }
 Viewpoint {
-  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
-  position 0.0 1.2 1.5
+  orientation 0.1584411174924864 0.3958288711395274 0.9045528824011005 2.0083686423734703
+  position 1.4980677323297094 -3.638339547908667 0.8167527109677201
 }
 Background {
-  skyColor [ 0.4 0.7 1.0 ]
+  skyColor [
+    0.4 0.7 1
+  ]
 }
 DirectionalLight {
   ambientIntensity 1
-  direction 0.2 -1.0 0.5
+  direction 0.2 -1 0.5
 }
-RectangleArena {
-  floorSize 3 3
-  wallHeight 0.1
+Floor {
+  size 3 3
 }
-
-# Agent 1 (Leader / Explorer)
-E-puck {
-  translation -1.0 -1.0 0
-  rotation 0 0 1 0
+Solid {
+  translation 0 1.5 0.05
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.7 0.7 0.7
+      }
+      geometry Box {
+        size 3 0.05 0.1
+      }
+    }
+  ]
+  name "north_wall"
+  boundingObject Box {
+    size 3 0.05 0.1
+  }
+}
+Solid {
+  translation 0 -1.5 0.05
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.7 0.7 0.7
+      }
+      geometry Box {
+        size 3 0.05 0.1
+      }
+    }
+  ]
+  name "south_wall"
+  boundingObject Box {
+    size 3 0.05 0.1
+  }
+}
+Solid {
+  translation 1.5 0 0.05
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.7 0.7 0.7
+      }
+      geometry Box {
+        size 0.05 3 0.1
+      }
+    }
+  ]
+  name "east_wall"
+  boundingObject Box {
+    size 0.05 3 0.1
+  }
+}
+Solid {
+  translation -1.5 0 0.05
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.7 0.7 0.7
+      }
+      geometry Box {
+        size 0.05 3 0.1
+      }
+    }
+  ]
+  name "west_wall"
+  boundingObject Box {
+    size 0.05 3 0.1
+  }
+}
+Robot {
+  translation -0.8 -0.8 0.05
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+      }
+      geometry Cylinder {
+        height 0.1
+        radius 0.08
+      }
+    }
+  ]
   name "agent_1"
+  boundingObject Cylinder {
+    height 0.1
+    radius 0.08
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
   controller "swarm_controller"
   supervisor TRUE
 }
-
-# Agent 2 (Collaborator A)
-E-puck {
-  translation 1.0 -1.0 0
+Robot {
+  translation 0.8 -0.8 0.05
   rotation 0 0 1 1.57
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.8 0.2
+      }
+      geometry Cylinder {
+        height 0.1
+        radius 0.08
+      }
+    }
+  ]
   name "agent_2"
+  boundingObject Cylinder {
+    height 0.1
+    radius 0.08
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
   controller "swarm_controller"
+  supervisor TRUE
 }
-
-# Agent 3 (Collaborator B)
-E-puck {
-  translation 0.0 1.0 0
+Robot {
+  translation 0 0.8 0.05
   rotation 0 0 1 3.14
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+      }
+      geometry Cylinder {
+        height 0.1
+        radius 0.08
+      }
+    }
+  ]
   name "agent_3"
+  boundingObject Cylinder {
+    height 0.1
+    radius 0.08
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
   controller "swarm_controller"
+  supervisor TRUE
 }
